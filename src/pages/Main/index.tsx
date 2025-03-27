@@ -1,16 +1,24 @@
 import styled from 'styled-components';
-import { Button } from '../../styles/common';
+import { Button, device } from '../../styles/common';
 import { useNavigate } from 'react-router-dom';
 import { useResetRecoilState } from 'recoil';
-import { playersState } from '../../state/common';
+import {
+  playersState,
+  roundState,
+  storyTellerIndexState,
+} from '../../state/common';
 import { useEffect } from 'react';
 
 const Main = () => {
   const navigate = useNavigate();
   const resetPlayers = useResetRecoilState(playersState);
+  const resetRound = useResetRecoilState(roundState);
+  const resetStoryTellerIndex = useResetRecoilState(storyTellerIndexState);
   useEffect(() => {
     resetPlayers();
-  }, [resetPlayers]);
+    resetRound();
+    resetStoryTellerIndex();
+  }, [resetPlayers, resetRound, resetStoryTellerIndex]);
   return (
     <MainWrapper>
       <h1>Dixit ScoreBoard</h1>
@@ -29,5 +37,10 @@ const MainWrapper = styled.div`
   text-align: center;
   h1 {
     margin-bottom: 30px;
+  }
+
+  @media ${device.mobile} {
+    width: 100%;
+    height: 400px;
   }
 `;

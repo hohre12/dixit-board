@@ -224,11 +224,12 @@ const ScoreInput = () => {
         isOpen: true,
         title: '게임종료',
         content: `${players.find((player) => player.scores.reduce((acc, score) => acc + score, 0) >= 30)?.name}님이 ${30}점을 초과하여 게임이 종료되었습니다.`,
-        cancelText: '취소',
         confirmText: '결과 페이지로 이동',
         confirmVariant: 'blue',
-        onClose: hideConfirm,
-        onCancel: hideConfirm,
+        onClose: () => {
+          hideConfirm();
+          navigate('/gameResult');
+        },
         onConfirm: () => {
           hideConfirm();
           navigate('/gameResult');
@@ -316,7 +317,6 @@ const ScoreInput = () => {
       >
         점수 입력 완료
       </Button>
-      <Button onClick={() => console.log(players)}>(임시)확인</Button>
     </ScoreInputWrapper>
   );
 };

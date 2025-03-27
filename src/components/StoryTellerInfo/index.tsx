@@ -5,6 +5,7 @@ import {
   roundState,
   storyTellerIndexState,
 } from '../../state/common';
+import { device } from '@/styles/common';
 
 const StoryTellerInfo = () => {
   const storyTellerIndex = useRecoilValue(storyTellerIndexState);
@@ -26,5 +27,12 @@ const StoryTellerInfoWrapper = styled.div`
   span {
     font-size: 28px;
     font-weight: 700;
+  }
+  @media ${device.mobile} {
+    padding: 10px;
+    span {
+      font-size: 22px;
+      font-weight: 700;
+    }
   }
 `;

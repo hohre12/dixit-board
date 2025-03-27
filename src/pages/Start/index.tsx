@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Input } from '../../styles/common';
+import { Button, device, Input } from '../../styles/common';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { playersState } from '../../state/common';
@@ -57,7 +57,8 @@ const Start = () => {
         {players.map((it, idx) => (
           <PlayerBox key={idx}>
             <span>
-              이름<p className="required">*</p>
+              플레이어 {idx}
+              <p className="required">*</p>
             </span>
             <Input
               value={it.name}
@@ -66,7 +67,7 @@ const Start = () => {
           </PlayerBox>
         ))}
         <Button
-          style={{ marginTop: 'auto' }}
+          $variant="blue"
           onClick={handleStart}
         >
           게임 Start!
@@ -80,24 +81,33 @@ export default Start;
 
 const StartWrapper = styled.div`
   padding: 30px;
+  @media ${device.mobile} {
+    padding: 0;
+  }
 `;
 const PlayerSettingWrapper = styled.div`
   padding: 20px;
   width: 500px;
-  height: 700px;
+  max-height: 700px;
   border-radius: 10px;
   border: 1px solid #ddd;
-  /* margin: auto; */
   display: flex;
   flex-direction: column;
   gap: 10px;
+  text-align: center;
   h2 {
     text-align: center;
+  }
+  @media ${device.mobile} {
+    width: 100%;
+    max-height: 700px;
+    border: none;
   }
 `;
 const ButtonWrapper = styled.div`
   display: flex;
   gap: 10px;
+  margin: auto;
 `;
 const PlayerBox = styled.div`
   padding: 10px;
@@ -106,6 +116,9 @@ const PlayerBox = styled.div`
   display: flex;
   gap: 20px;
   align-items: center;
+  span {
+    white-space: nowrap;
+  }
   input {
     border: 1px solid #eee;
     border-radius: 5px;

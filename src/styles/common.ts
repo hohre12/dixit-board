@@ -1,12 +1,19 @@
 import { TVariant } from '@/types';
 import styled, { css } from 'styled-components';
 
+export const device = {
+  mobile: '(max-width: 480px)',
+  tablet: '(max-width: 768px)',
+  desktop: '(min-width: 769px)',
+};
+
 export const Button = styled.button<{ $variant?: TVariant }>`
   padding: 10px 20px;
   color: #111;
   background: #fff;
   border-radius: 5px;
   border: 1px solid #111;
+  white-space: nowrap;
   &:hover {
     background: #eee;
   }
@@ -72,6 +79,13 @@ export const TableHeaderRow = styled.tr`
     padding: 0px 15px;
     border-bottom: 1px solid #eee;
     width: 100vw;
+    @media ${device.mobile} {
+      max-width: 110px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      word-break: break-all;
+    }
   }
 `;
 
@@ -89,6 +103,10 @@ export const TableItemRow = styled.tr`
 `;
 
 export const TableFootRow = styled.tr`
+  position: sticky;
+  bottom: 0;
+  background-color: #fff;
+  z-index: 10;
   td {
     font-size: 18px;
     font-weight: 700;
@@ -98,6 +116,6 @@ export const TableFootRow = styled.tr`
     text-align: left;
     padding: 0px 15px;
     max-width: 220px;
-    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
   }
 `;

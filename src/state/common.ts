@@ -22,18 +22,14 @@ export const playersState = atom<TPlayer[]>({
 export const roundState = atom<number>({
   key: 'roundState',
   default: 1,
+  effects_UNSTABLE: [persistAtom],
 });
 
 // 이야기꾼 인덱스
 export const storyTellerIndexState = atom<number>({
   key: 'storyTellerIndexState',
   default: 0,
-});
-
-// 게임 종료 여부
-export const gameOverState = atom<boolean>({
-  key: 'gameOverState',
-  default: false,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const confirmState = atom<TConfirm>({

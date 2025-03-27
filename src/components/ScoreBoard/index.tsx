@@ -2,6 +2,7 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { playersState, roundState } from '../../state/common';
 import {
+  device,
   TableFootRow,
   TableHeaderRow,
   TableItemRow,
@@ -54,4 +55,7 @@ const ScoreBoardWrapper = styled.div`
   width: 100%;
   height: 500px;
   overflow-y: auto;
+  @media ${device.mobile} {
+    height: 400px;
+  }
 `;

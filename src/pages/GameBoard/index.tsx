@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button } from '../../styles/common';
+import { Button, device } from '../../styles/common';
 import { useRecoilValue } from 'recoil';
 import { roundState } from '../../state/common';
 
@@ -22,5 +22,9 @@ const GameBoardWrapper = styled.div`
   padding: 50px;
   button {
     margin-top: 50px;
+  }
+  @media ${device.mobile} {
+    width: 100%;
+    height: 400px;
   }
 `;

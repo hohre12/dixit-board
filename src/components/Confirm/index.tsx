@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { confirmState } from '@/state/common';
 import { SvgIcon } from '../SvgIcon';
-import { Button } from '@/styles/common';
+import { Button, device } from '@/styles/common';
 import styled from 'styled-components';
 
 const Confirm = () => {
@@ -93,6 +93,9 @@ const ConfirmWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  @media ${device.mobile} {
+    width: 90%;
+  }
 `;
 const ConfirmHeader = styled.div`
   display: flex;
