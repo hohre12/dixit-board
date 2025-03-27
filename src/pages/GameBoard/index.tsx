@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { Button } from "../../styles/common";
-import { useRecoilValue } from "recoil";
-import { roundState } from "../../state/common";
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { Button } from '../../styles/common';
+import { useRecoilValue } from 'recoil';
+import { roundState } from '../../state/common';
 
 const GameBoard = () => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ const GameBoard = () => {
   return (
     <GameBoardWrapper>
       <h1>{round}회차 라운드 진행중</h1>
-      <Button onClick={() => navigate("/scoreInput")}>라운드 종료</Button>
+      <Button onClick={() => navigate('/scoreInput')}>라운드 종료</Button>
     </GameBoardWrapper>
   );
 };

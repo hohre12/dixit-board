@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import { Button, Input } from "../../styles/common";
-import { useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { playersState } from "../../state/common";
-import { MAXIMUM_PLAYERS } from "../../constants/common";
-import { useCallback, useEffect } from "react";
+import styled from 'styled-components';
+import { Button, Input } from '../../styles/common';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { playersState } from '../../state/common';
+import { MAXIMUM_PLAYERS } from '../../constants/common';
+import { useCallback } from 'react';
 
 const Start = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const Start = () => {
 
   const addPlayer = () => {
     if (players.length < MAXIMUM_PLAYERS) {
-      setPlayers((prev) => [...prev, { name: "", totalScore: 0, scores: [] }]);
+      setPlayers((prev) => [...prev, { name: '', scores: [] }]);
     } else {
       alert(`플레이어 수는 최대 ${MAXIMUM_PLAYERS}명 입니다.`);
     }
@@ -36,6 +36,15 @@ const Start = () => {
     },
     [setPlayers],
   );
+
+  const handleStart = () => {
+    if (players.some((it) => !it.name)) {
+      alert('플레이어 이름은 필수입니다.');
+      return;
+    }
+    navigate('/gameBoard');
+  };
+
   return (
     <StartWrapper>
       <h2>플레이어 설정</h2>
@@ -53,9 +62,7 @@ const Start = () => {
           ></Input>
         </PlayerBox>
       ))}
-      <Button onClick={() => navigate("/gameBoard")}>
-        입력 완료 및 게임 Start!
-      </Button>
+      <Button onClick={handleStart}>입력 완료 및 게임 Start!</Button>
     </StartWrapper>
   );
 };
