@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Button, Input } from "../../styles/common";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { playersState } from "../../state/common";
 import { MAXIMUM_PLAYERS } from "../../constants/common";
 import { useCallback, useEffect } from "react";
