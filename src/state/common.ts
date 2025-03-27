@@ -1,5 +1,11 @@
 import { atom } from 'recoil';
 import { TPlayer } from '../types';
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist({
+  key: 'players',
+  storage: localStorage,
+});
 
 // 플레이어 목록
 export const playersState = atom<TPlayer[]>({
@@ -9,6 +15,7 @@ export const playersState = atom<TPlayer[]>({
     { name: '', scores: [] },
     { name: '', scores: [] },
   ],
+  effects_UNSTABLE: [persistAtom],
 });
 
 // 현재 라운드

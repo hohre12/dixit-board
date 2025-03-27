@@ -50,5 +50,8 @@ const ScoreBoard = () => {
 export default ScoreBoard;
 
 const ScoreBoardWrapper = styled.div`
+  padding: 30px 0;
   width: 100%;
+  height: 500px;
+  overflow-y: auto;
 `;

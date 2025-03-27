@@ -47,35 +47,68 @@ const Start = () => {
 
   return (
     <StartWrapper>
-      <h2>플레이어 설정</h2>
-      <div>현재 플레이어 수 {players.length}명</div>
-      <ButtonWrapper>
-        <Button onClick={addPlayer}>플레이어 추가</Button>
-        <Button onClick={removePlayer}>플레이어 삭제</Button>
-      </ButtonWrapper>
-      {players.map((it, idx) => (
-        <PlayerBox key={idx}>
-          <Input
-            value={it.name}
-            onChange={(e) => handlePlayersNameChange(idx, e.target.value)}
-          ></Input>
-        </PlayerBox>
-      ))}
-      <Button onClick={handleStart}>입력 완료 및 게임 Start!</Button>
+      <PlayerSettingWrapper>
+        <h2>플레이어 설정</h2>
+        <div>현재 플레이어 수 {players.length}명</div>
+        <ButtonWrapper>
+          <Button onClick={addPlayer}>플레이어 추가</Button>
+          <Button onClick={removePlayer}>플레이어 삭제</Button>
+        </ButtonWrapper>
+        {players.map((it, idx) => (
+          <PlayerBox key={idx}>
+            <span>
+              이름<p className="required">*</p>
+            </span>
+            <Input
+              value={it.name}
+              onChange={(e) => handlePlayersNameChange(idx, e.target.value)}
+            ></Input>
+          </PlayerBox>
+        ))}
+        <Button
+          style={{ marginTop: 'auto' }}
+          onClick={handleStart}
+        >
+          게임 Start!
+        </Button>
+      </PlayerSettingWrapper>
     </StartWrapper>
   );
 };
 
 export default Start;
 
-const StartWrapper = styled.div``;
+const StartWrapper = styled.div`
+  padding: 30px;
+`;
+const PlayerSettingWrapper = styled.div`
+  padding: 20px;
+  width: 500px;
+  height: 700px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  /* margin: auto; */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  h2 {
+    text-align: center;
+  }
+`;
 const ButtonWrapper = styled.div`
   display: flex;
   gap: 10px;
 `;
 const PlayerBox = styled.div`
   padding: 10px;
-  height: 100px;
   border-radius: 5px;
   border: 1px solid #eee;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  input {
+    border: 1px solid #eee;
+    border-radius: 5px;
+    height: 30px;
+  }
 `;

@@ -12,7 +12,7 @@ const StoryTellerInfo = () => {
   const round = useRecoilValue(roundState);
   return (
     <StoryTellerInfoWrapper>
-      <h3>{`${round}회차 이야기꾼 : ${players[storyTellerIndex].name}님`}</h3>
+      <span>{`${round}회차 StoryTeller : ${players[storyTellerIndex].name}님`}</span>
     </StoryTellerInfoWrapper>
   );
 };
@@ -21,4 +21,10 @@ export default StoryTellerInfo;
 
 const StoryTellerInfoWrapper = styled.div`
   width: 100%;
+  padding: 30px;
+  text-align: center;
+  span {
+    font-size: 28px;
+    font-weight: 700;
+  }
 `;

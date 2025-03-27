@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Button = styled.button`
+export const Button = styled.button<{ $variant?: 'black' | 'blue' | 'red' }>`
   padding: 10px 20px;
   color: #111;
   background: #fff;
@@ -9,6 +9,24 @@ export const Button = styled.button`
   &:hover {
     background: #eee;
   }
+  ${({ $variant }) =>
+    $variant === 'black' &&
+    css`
+      color: #fff;
+      background: #111;
+    `}
+  ${({ $variant }) =>
+    $variant === 'blue' &&
+    css`
+      color: #fff;
+      background-color: #0d6dff;
+    `}
+    ${({ $variant }) =>
+    $variant === 'red' &&
+    css`
+      color: #fff;
+      background-color: #ff3126;
+    `}
 `;
 
 export const Input = styled.input`
@@ -31,6 +49,7 @@ export const TableWrapper = styled.table`
 
 export const TableHeaderRow = styled.tr`
   height: 40px;
+  position: sticky;
   top: 0;
   background-color: #fff;
   z-index: 10;
@@ -61,7 +80,8 @@ export const TableItemRow = styled.tr`
 export const TableFootRow = styled.tr`
   td {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 700;
+    color: #111;
     border-bottom: 1px solid #eee;
     height: 60px;
     text-align: left;

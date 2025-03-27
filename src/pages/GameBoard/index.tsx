@@ -17,4 +17,10 @@ const GameBoard = () => {
 
 export default GameBoard;
 
-const GameBoardWrapper = styled.div``;
+const GameBoardWrapper = styled.div`
+  text-align: center;
+  padding: 50px;
+  button {
+    margin-top: 50px;
+  }
+`;

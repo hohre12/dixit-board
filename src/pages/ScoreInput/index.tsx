@@ -235,7 +235,7 @@ const ScoreInput = () => {
   }, [players, selectedScoreType]);
   return (
     <ScoreInputWrapper>
-      <h2>{round}차 라운드 점수 입력</h2>
+      <h2>{round} 라운드 점수 입력</h2>
       <ButtonWrapper>
         {Object.values(ScoreType).map((type, idx) => (
           <Button
@@ -247,14 +247,15 @@ const ScoreInput = () => {
         ))}
       </ButtonWrapper>
       {selectedScoreType === ScoreType.PARTLY_CORRECT && (
-        <>
+        <CheckWrapper>
           <h3>정답 맞춘 플레이어 선택</h3>
           {players.map(
             (player, idx) =>
               storyTellerIndex !== idx && (
                 <div key={idx}>
-                  <span>{player.name}</span>
+                  <label htmlFor={`playerScore_${idx}`}>{player.name}</label>
                   <input
+                    id={`playerScore_${idx}`}
                     type="checkbox"
                     checked={
                       playerScores.find(
@@ -266,10 +267,10 @@ const ScoreInput = () => {
                 </div>
               ),
           )}
-        </>
+        </CheckWrapper>
       )}
       {selectedScoreType && selectedScoreType !== ScoreType.ALL_CORRECT && (
-        <>
+        <InputWrapper>
           <h3>추가 점수 입력</h3>
           {players.map(
             (player, idx) =>
@@ -288,34 +289,70 @@ const ScoreInput = () => {
                   >
                     -
                   </Button>
-                  <span>{playerScores[idx].bonusScore}</span>
-                  {/* <input
-                    type="number"
-                    min={0}
-                    value={playerScores[idx].bonusScore}
-                    onChange={(e) => {
-                      // TODO: 추가점수 제한 조건 추가
-                      const score = Number(e.target.value);
-                      if (!isNaN(score)) {
-                        inputPlayerBonusScore(idx, score);
-                      }
-                    }}
-                  /> */}
+                  <div>{`${playerScores[idx].bonusScore}점`}</div>
                 </div>
               ),
           )}
-        </>
+        </InputWrapper>
       )}
-      <Button onClick={handleScoreSubmit}>점수 입력 완료</Button>
-      <Button onClick={() => console.log(players)}>확인</Button>
+      <Button
+        $variant="black"
+        onClick={handleScoreSubmit}
+      >
+        점수 입력 완료
+      </Button>
+      <Button onClick={() => console.log(players)}>(임시)확인</Button>
     </ScoreInputWrapper>
   );
 };
 
 export default ScoreInput;
 
-const ScoreInputWrapper = styled.div``;
+const ScoreInputWrapper = styled.div`
+  text-align: center;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+`;
 const ButtonWrapper = styled.div`
   display: flex;
   gap: 10px;
+`;
+const CheckWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  & > div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    & > label {
+      cursor: pointer;
+    }
+    & > input {
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+    }
+  }
+`;
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  & > div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    & > div {
+      border: 1px solid #ddd;
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+  }
 `;
