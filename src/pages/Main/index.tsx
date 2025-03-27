@@ -14,4 +14,13 @@ const Main = () => {
 
 export default Main;
 
-const MainWrapper = styled.div``;
+const MainWrapper = styled.div`
+  width: 450px;
+  height: 600px;
+  padding-top: 25%;
+  margin: auto;
+  text-align: center;
+  h1 {
+    margin-bottom: 30px;
+  }
+`;

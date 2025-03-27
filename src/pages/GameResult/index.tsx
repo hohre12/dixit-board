@@ -1,5 +1,9 @@
+import styled from 'styled-components';
+
 const GameResult = () => {
-  return <div></div>;
+  return <GameResultWrapper>게임 끝이요</GameResultWrapper>;
 };
 
 export default GameResult;
+
+const GameResultWrapper = styled.div``;

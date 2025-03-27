@@ -1,34 +1,47 @@
-import { useRecoilValue } from "recoil";
-import styled from "styled-components";
+import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import { playersState, roundState } from '../../state/common';
 import {
-  playersState,
-  roundState,
-  storytellerIndexState,
-} from "../../state/common";
-import {
+  TableFootRow,
   TableHeaderRow,
   TableItemRow,
   TableWrapper,
-} from "../../styles/common";
+} from '../../styles/common';
 
 const ScoreBoard = () => {
   const players = useRecoilValue(playersState);
-
+  const round = useRecoilValue(roundState);
   return (
     <ScoreBoardWrapper>
       <TableWrapper>
         <thead>
           <TableHeaderRow>
             <th>이름</th>
-            <th>점수</th>
-            <th></th>
+            {players.map((player, idx) => (
+              <th key={idx}>{player.name}</th>
+            ))}
           </TableHeaderRow>
         </thead>
         <tbody>
-          <TableItemRow>
-            <td></td>
-          </TableItemRow>
+          {Array.from({ length: round }).map((_, roundIdx) => (
+            <TableItemRow key={roundIdx}>
+              <td>{`${roundIdx + 1}회차`}</td>
+              {players.map((player, playerIdx) => (
+                <td key={playerIdx}>{`${player.scores[roundIdx] ?? 0}점`}</td>
+              ))}
+            </TableItemRow>
+          ))}
         </tbody>
+        <tfoot>
+          <TableFootRow>
+            <td>총점</td>
+            {players.map((player, idx) => (
+              <td key={idx}>
+                {`${player.scores.reduce((acc, score) => acc + score, 0)}점`}
+              </td>
+            ))}
+          </TableFootRow>
+        </tfoot>
       </TableWrapper>
     </ScoreBoardWrapper>
   );

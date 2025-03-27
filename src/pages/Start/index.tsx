@@ -19,10 +19,10 @@ const Start = () => {
   };
 
   const removePlayer = () => {
-    if (players.length > 2) {
+    if (players.length > 3) {
       setPlayers((prev) => prev.slice(0, -1));
     } else {
-      alert(`플레이어 수는 최소 2명 입니다.`);
+      alert(`플레이어 수는 최소 3명 입니다.`);
     }
   };
 
@@ -54,9 +54,8 @@ const Start = () => {
         <Button onClick={removePlayer}>플레이어 삭제</Button>
       </ButtonWrapper>
       {players.map((it, idx) => (
-        <PlayerBox>
+        <PlayerBox key={idx}>
           <Input
-            key={idx}
             value={it.name}
             onChange={(e) => handlePlayersNameChange(idx, e.target.value)}
           ></Input>

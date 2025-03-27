@@ -1,18 +1,18 @@
-import { useRecoilValue } from "recoil";
-import styled from "styled-components";
+import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
 import {
   playersState,
   roundState,
-  storytellerIndexState,
-} from "../../state/common";
+  storyTellerIndexState,
+} from '../../state/common';
 
 const StoryTellerInfo = () => {
-  const storytellerIndex = useRecoilValue(storytellerIndexState);
+  const storyTellerIndex = useRecoilValue(storyTellerIndexState);
   const players = useRecoilValue(playersState);
   const round = useRecoilValue(roundState);
   return (
     <StoryTellerInfoWrapper>
-      <h3>{`${round}회차 이야기꾼 : ${players[storytellerIndex].name}`}</h3>
+      <h3>{`${round}회차 이야기꾼 : ${players[storyTellerIndex].name}님`}</h3>
     </StoryTellerInfoWrapper>
   );
 };

@@ -7,6 +7,7 @@ export const playersState = atom<TPlayer[]>({
   default: [
     { name: '', scores: [] },
     { name: '', scores: [] },
+    { name: '', scores: [] },
   ],
 });
 
@@ -17,8 +18,8 @@ export const roundState = atom<number>({
 });
 
 // 이야기꾼 인덱스
-export const storytellerIndexState = atom<number>({
-  key: 'storytellerIndexState',
+export const storyTellerIndexState = atom<number>({
+  key: 'storyTellerIndexState',
   default: 0,
 });
 

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Button = styled.button`
   padding: 10px 20px;
@@ -31,14 +31,13 @@ export const TableWrapper = styled.table`
 
 export const TableHeaderRow = styled.tr`
   height: 40px;
-  position: sticky;
   top: 0;
   background-color: #fff;
   z-index: 10;
   th {
-    font-size: 14px;
-    font-weight: 600;
-    color: #ddd;
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
     text-align: left;
     padding: 0px 15px;
     border-bottom: 1px solid #eee;
@@ -47,12 +46,8 @@ export const TableHeaderRow = styled.tr`
 `;
 
 export const TableItemRow = styled.tr`
-  cursor: pointer;
-  &:hover {
-    background: #f5f5f5;
-  }
   td {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 500;
     border-bottom: 1px solid #eee;
     height: 60px;
@@ -60,14 +55,18 @@ export const TableItemRow = styled.tr`
     padding: 0px 15px;
     max-width: 220px;
     border-bottom: 1px solid #eee;
-    &.name {
-      font-weight: 600;
-    }
-    &.textHidden {
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      word-break: break-all;
-    }
+  }
+`;
+
+export const TableFootRow = styled.tr`
+  td {
+    font-size: 18px;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+    height: 60px;
+    text-align: left;
+    padding: 0px 15px;
+    max-width: 220px;
+    border-bottom: 1px solid #eee;
   }
 `;
