@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { TPlayer } from '../types';
+import { TConfirm, TPlayer } from '../types';
 import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist({
@@ -34,4 +34,12 @@ export const storyTellerIndexState = atom<number>({
 export const gameOverState = atom<boolean>({
   key: 'gameOverState',
   default: false,
+});
+
+export const confirmState = atom<TConfirm>({
+  key: 'confirmState',
+  default: {
+    isOpen: false,
+    confirmVariant: 'gray',
+  },
 });

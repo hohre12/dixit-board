@@ -1,6 +1,7 @@
+import { TVariant } from '@/types';
 import styled, { css } from 'styled-components';
 
-export const Button = styled.button<{ $variant?: 'black' | 'blue' | 'red' }>`
+export const Button = styled.button<{ $variant?: TVariant }>`
   padding: 10px 20px;
   color: #111;
   background: #fff;
@@ -10,22 +11,32 @@ export const Button = styled.button<{ $variant?: 'black' | 'blue' | 'red' }>`
     background: #eee;
   }
   ${({ $variant }) =>
+    $variant === 'gray' &&
+    css`
+      color: #111;
+      background: #f5f5f5;
+      border: none;
+    `}
+  ${({ $variant }) =>
     $variant === 'black' &&
     css`
       color: #fff;
       background: #111;
+      border: none;
     `}
   ${({ $variant }) =>
     $variant === 'blue' &&
     css`
       color: #fff;
       background-color: #0d6dff;
+      border: none;
     `}
     ${({ $variant }) =>
     $variant === 'red' &&
     css`
       color: #fff;
       background-color: #ff3126;
+      border: none;
     `}
 `;
 

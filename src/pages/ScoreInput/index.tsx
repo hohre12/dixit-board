@@ -9,6 +9,7 @@ import { ScoreType } from '../../constants/common';
 import { Button } from '../../styles/common';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useConfirm } from '@/hooks/useConfirm';
 
 type TPlayerScore = {
   isCorrect: boolean;
@@ -29,6 +30,7 @@ const ScoreInput = () => {
       bonusScore: 0,
     })),
   );
+  const { showConfirm, hideConfirm } = useConfirm();
 
   const checkCorrectPlayer = useCallback(
     (index: number, e: ChangeEvent<HTMLInputElement>) => {
@@ -218,7 +220,20 @@ const ScoreInput = () => {
         (player) => player.scores.reduce((acc, score) => acc + score, 0) >= 30,
       )
     ) {
-      navigate('/gameResult');
+      showConfirm({
+        isOpen: true,
+        title: '게임종료',
+        content: `${players.find((player) => player.scores.reduce((acc, score) => acc + score, 0) >= 30)?.name}님이 ${30}점을 초과하여 게임이 종료되었습니다.`,
+        cancelText: '취소',
+        confirmText: '결과 페이지로 이동',
+        confirmVariant: 'blue',
+        onClose: hideConfirm,
+        onCancel: hideConfirm,
+        onConfirm: () => {
+          hideConfirm();
+          navigate('/gameResult');
+        },
+      });
     } else {
       navigate('/gameBoard');
     }

@@ -11,6 +11,7 @@ import StoryTellerInfo from './components/StoryTellerInfo';
 import ScoreBoard from './components/ScoreBoard';
 import ScoreInput from './pages/ScoreInput';
 import GameResult from './pages/GameResult';
+import Confirm from './components/Confirm';
 
 function App() {
   const location = useLocation();
@@ -43,6 +44,7 @@ function App() {
           element={<GameResult />}
         />
       </ReactRouterRoutes>
+      <Confirm></Confirm>
     </div>
   );
 }
