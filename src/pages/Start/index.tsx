@@ -12,7 +12,7 @@ const Start = () => {
 
   const addPlayer = () => {
     if (players.length < MAXIMUM_PLAYERS) {
-      setPlayers((prev) => [...prev, { name: "", score: 0 }]);
+      setPlayers((prev) => [...prev, { name: "", totalScore: 0, scores: [] }]);
     } else {
       alert(`플레이어 수는 최대 ${MAXIMUM_PLAYERS}명 입니다.`);
     }

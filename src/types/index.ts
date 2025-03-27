@@ -1,4 +1,5 @@
 export type TPlayer = {
   name: string;
-  score: number;
+  totalScore: number;
+  scores: number[];
 };

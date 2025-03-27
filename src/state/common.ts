@@ -5,8 +5,8 @@ import { TPlayer } from "../types";
 export const playersState = atom<TPlayer[]>({
   key: "playersState",
   default: [
-    { name: "", score: 0 },
-    { name: "", score: 0 },
+    { name: "", totalScore: 0, scores: [] },
+    { name: "", totalScore: 0, scores: [] },
   ],
 });
 
