@@ -242,7 +242,7 @@ export default ScoreInput;
 
 const ScoreInputWrapper = styled.div`
   text-align: center;
-  padding: 50px;
+  padding: 50px 50px 120px 50px;
   display: flex;
   flex-direction: column;
   gap: 20px;

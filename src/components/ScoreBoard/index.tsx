@@ -1,13 +1,13 @@
-import { useRecoilValue } from 'recoil';
-import styled from 'styled-components';
-import { playersState, roundState } from '../../state/common';
+import { useRecoilValue } from "recoil";
+import styled from "styled-components";
+import { playersState, roundState } from "../../state/common";
 import {
   device,
   TableFootRow,
   TableHeaderRow,
   TableItemRow,
   TableWrapper,
-} from '../../styles/common';
+} from "../../styles/common";
 
 const ScoreBoard = () => {
   const players = useRecoilValue(playersState);
@@ -52,7 +52,8 @@ export default ScoreBoard;
 
 const ScoreBoardWrapper = styled.div`
   padding: 30px 0;
-  width: 100%;
+  max-width: 1140px;
+  margin: auto;
   height: 500px;
   overflow-y: auto;
   @media ${device.mobile} {

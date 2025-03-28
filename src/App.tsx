@@ -21,6 +21,7 @@ import {
   storyTellerIndexState,
 } from "./state/common";
 import { useConfirm } from "./hooks/useConfirm";
+import Navigation from "./components/Navigation";
 
 function App() {
   const location = useLocation();
@@ -60,6 +61,7 @@ function App() {
   }, [players, resetPlayers, resetRound, resetStoryTellerIndex, showConfirm]);
   return (
     <div className="App">
+      {isGameInProgress && <Navigation />}
       {isGameInProgress && <ScoreBoard />}
       {isGameInProgress && <StoryTellerInfo />}
       <ReactRouterRoutes>

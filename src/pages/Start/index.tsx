@@ -92,6 +92,7 @@ const PlayerSettingWrapper = styled.div`
   flex-direction: column;
   gap: 10px;
   text-align: center;
+  margin: auto;
   h2 {
     text-align: center;
   }
