@@ -1,13 +1,13 @@
-import { useRecoilValue } from "recoil";
-import styled from "styled-components";
-import { playersState, roundState } from "../../state/common";
+import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import { playersState, roundState } from '../../state/common';
 import {
   device,
   TableFootRow,
   TableHeaderRow,
   TableItemRow,
   TableWrapper,
-} from "../../styles/common";
+} from '../../styles/common';
 
 const ScoreBoard = () => {
   const players = useRecoilValue(playersState);
