@@ -34,86 +34,55 @@ const ScoreInput = () => {
 
   const checkCorrectPlayer = useCallback(
     (index: number, e: ChangeEvent<HTMLInputElement>) => {
-      if (
-        e.target.checked &&
-        playerScores.filter((it) => it.isCorrect).length === players.length - 2
-      ) {
+      const isChecked = e.target.checked;
+      const correctCount = playerScores.filter((it) => it.isCorrect).length;
+      if (isChecked && correctCount >= players.length - 2) {
         alert("모두다 정답일수 없습니다.");
         return;
       }
-      if (e.target.checked) {
-        setPlayerScores(
-          playerScores.map((playerScore, idx) =>
-            idx === index
-              ? { bonusScore: 0, isCorrect: !playerScore.isCorrect }
-              : { bonusScore: 0, isCorrect: playerScore.isCorrect },
-          ),
-        );
-      } else {
-        setPlayerScores(
-          playerScores.map((playerScore, idx) =>
-            idx === index
-              ? { ...playerScore, isCorrect: !playerScore.isCorrect }
-              : playerScore,
-          ),
-        );
-      }
+      setPlayerScores((prevScores) =>
+        prevScores.map((playerScore, idx) => {
+          const isTarget = idx === index;
+          return {
+            ...playerScore,
+            isCorrect: isTarget
+              ? !playerScore.isCorrect
+              : playerScore.isCorrect,
+            bonusScore: isChecked ? 0 : playerScore.bonusScore,
+          };
+        }),
+      );
     },
     [playerScores, players.length],
   );
   const inputPlayerBonusScore = useCallback(
     (index: number, type: "plus" | "minus") => {
-      // 모두 오답일경우, 추가 점수 limit 제한
-      if (
-        type === "plus" &&
-        selectedScoreType === ScoreType.ALL_WRONG &&
-        playerScores.reduce(
-          (acc, playerScore) => acc + playerScore.bonusScore,
-          0,
-        ) ===
-          players.length - 1
-      ) {
-        alert(`최대 추가 점수는 ${players.length - 1}점을 넘을수 없습니다.`);
+      const totalBonusScore = playerScores.reduce(
+        (acc, { bonusScore }) => acc + bonusScore,
+        0,
+      );
+      const correctCount = playerScores.filter(
+        ({ isCorrect }) => isCorrect,
+      ).length;
+      const maxBonusLimit =
+        players.length -
+        1 -
+        (selectedScoreType === ScoreType.PARTLY_CORRECT ? correctCount : 0);
+
+      if (type === "plus" && totalBonusScore === maxBonusLimit) {
+        alert(`최대 추가 점수는 ${maxBonusLimit}점을 넘을 수 없습니다.`);
         return;
       }
-      // 일부 정답일경우,
-      if (
-        type === "plus" &&
-        selectedScoreType === ScoreType.PARTLY_CORRECT &&
-        playerScores.reduce(
-          (acc, playerScore) => acc + playerScore.bonusScore,
-          0,
-        ) ===
-          players.length -
-            1 -
-            playerScores.filter((playerScore) => playerScore.isCorrect).length
-      ) {
-        alert(
-          `최대 추가 점수는 ${
-            players.length -
-            1 -
-            playerScores.filter((playerScore) => playerScore.isCorrect).length
-          }점을 넘을수 없습니다.`,
-        );
-        return;
-      }
-      if (type === "plus") {
-        setPlayerScores(
-          playerScores.map((playerScore, idx) =>
+
+      setPlayerScores((prevScores) =>
+        prevScores.map((playerScore, idx) => ({
+          ...playerScore,
+          bonusScore:
             idx === index
-              ? { ...playerScore, bonusScore: playerScore.bonusScore + 1 }
-              : playerScore,
-          ),
-        );
-      } else {
-        setPlayerScores(
-          playerScores.map((playerScore, idx) =>
-            idx === index
-              ? { ...playerScore, bonusScore: playerScore.bonusScore - 1 }
-              : playerScore,
-          ),
-        );
-      }
+              ? playerScore.bonusScore + (type === "plus" ? 1 : -1)
+              : playerScore.bonusScore,
+        })),
+      );
     },
     [playerScores, players.length, selectedScoreType],
   );
