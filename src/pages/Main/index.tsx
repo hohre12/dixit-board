@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import { Button, device } from '../../styles/common';
-import { useNavigate } from 'react-router-dom';
-import { useResetRecoilState } from 'recoil';
+import styled from "styled-components";
+import { Button, device } from "../../styles/common";
+import { useNavigate } from "react-router-dom";
+import { useResetRecoilState } from "recoil";
 import {
   playersState,
   roundState,
   storyTellerIndexState,
-} from '../../state/common';
-import { useEffect } from 'react';
+} from "../../state/common";
+import { useEffect } from "react";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Main = () => {
   return (
     <MainWrapper>
       <h1>Dixit ScoreBoard</h1>
-      <Button onClick={() => navigate('/start')}>게임 시작</Button>
+      <Button onClick={() => navigate("/start")}>게임 시작</Button>
     </MainWrapper>
   );
 };
@@ -32,7 +32,7 @@ export default Main;
 const MainWrapper = styled.div`
   width: 450px;
   height: 600px;
-  padding-top: 25%;
+  transform: translate(0, 50%);
   margin: auto;
   text-align: center;
   h1 {
@@ -41,6 +41,5 @@ const MainWrapper = styled.div`
 
   @media ${device.mobile} {
     width: 100%;
-    height: 400px;
   }
 `;
