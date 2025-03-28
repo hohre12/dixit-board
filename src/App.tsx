@@ -24,6 +24,7 @@ import {
 } from './state/common';
 import { useConfirm } from './hooks/useConfirm';
 import Navigation from './components/Navigation';
+import Toast from './components/Toast';
 
 function App() {
   const location = useLocation();
@@ -98,6 +99,7 @@ function App() {
         />
       </ReactRouterRoutes>
       <Confirm></Confirm>
+      <Toast></Toast>
     </div>
   );
 }

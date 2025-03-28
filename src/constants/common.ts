@@ -1,3 +1,4 @@
+export const TOAST_TIME = 5000;
 export const MAXIMUM_PLAYERS = 4;
 export enum ScoreType {
   ALL_CORRECT = '모두 정답',

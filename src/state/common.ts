@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { TConfirm, TPlayer } from '../types';
+import { TConfirm, TPlayer, TToast } from '../types';
 import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist({
@@ -38,4 +38,9 @@ export const confirmState = atom<TConfirm>({
     isOpen: false,
     confirmVariant: 'gray',
   },
+});
+
+export const toastListState = atom<TToast[]>({
+  key: 'toastListState',
+  default: [],
 });

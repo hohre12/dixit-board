@@ -1,16 +1,16 @@
-import { useRecoilState, useRecoilValue } from "recoil";
-import styled from "styled-components";
+import { useRecoilState, useRecoilValue } from 'recoil';
+import styled from 'styled-components';
 import {
   playersState,
   roundState,
   storyTellerIndexState,
-} from "../../state/common";
-import { ScoreType } from "../../constants/common";
-import { Button } from "../../styles/common";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-// import { useConfirm } from "@/hooks/useConfirm";
-import { TPlayer } from "@/types";
+} from '../../state/common';
+import { ScoreType } from '../../constants/common';
+import { Button } from '../../styles/common';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { TPlayer } from '@/types';
+import { useToast } from '@/hooks/useToast';
 
 type TPlayerScore = {
   isCorrect: boolean;
@@ -19,6 +19,7 @@ type TPlayerScore = {
 
 const ScoreInput = () => {
   const navigate = useNavigate();
+  const { addToast } = useToast();
   const [round, setRound] = useRecoilState(roundState);
   const [players, setPlayers] = useRecoilState(playersState);
   const [storyTellerIndex, setStoryTellerIndex] = useRecoilState(
@@ -31,14 +32,18 @@ const ScoreInput = () => {
       bonusScore: 0,
     })),
   );
-  //   const { showConfirm, hideConfirm } = useConfirm();
 
   const checkCorrectPlayer = useCallback(
     (index: number, e: ChangeEvent<HTMLInputElement>) => {
       const isChecked = e.target.checked;
       const correctCount = playerScores.filter((it) => it.isCorrect).length;
       if (isChecked && correctCount >= players.length - 2) {
-        alert("모두다 정답일수 없습니다.");
+        addToast({
+          id: Date.now(),
+          isImage: true,
+          content: `모두다 정답일수 없습니다.`,
+          type: 'error',
+        });
         return;
       }
       setPlayerScores((prevScores) =>
@@ -54,10 +59,10 @@ const ScoreInput = () => {
         }),
       );
     },
-    [playerScores, players.length],
+    [addToast, playerScores, players.length],
   );
   const inputPlayerBonusScore = useCallback(
-    (index: number, type: "plus" | "minus") => {
+    (index: number, type: 'plus' | 'minus') => {
       const totalBonusScore = playerScores.reduce(
         (acc, { bonusScore }) => acc + bonusScore,
         0,
@@ -70,8 +75,13 @@ const ScoreInput = () => {
         1 -
         (selectedScoreType === ScoreType.PARTLY_CORRECT ? correctCount : 0);
 
-      if (type === "plus" && totalBonusScore === maxBonusLimit) {
-        alert(`최대 추가 점수는 ${maxBonusLimit}점을 넘을 수 없습니다.`);
+      if (type === 'plus' && totalBonusScore === maxBonusLimit) {
+        addToast({
+          id: Date.now(),
+          isImage: true,
+          content: `최대 추가 점수는 ${maxBonusLimit}점을 넘을 수 없습니다.`,
+          type: 'error',
+        });
         return;
       }
 
@@ -80,17 +90,22 @@ const ScoreInput = () => {
           ...playerScore,
           bonusScore:
             idx === index
-              ? playerScore.bonusScore + (type === "plus" ? 1 : -1)
+              ? playerScore.bonusScore + (type === 'plus' ? 1 : -1)
               : playerScore.bonusScore,
         })),
       );
     },
-    [playerScores, players.length, selectedScoreType],
+    [addToast, playerScores, players.length, selectedScoreType],
   );
 
   const handleScoreSubmit = () => {
     if (!selectedScoreType) {
-      alert("게임결과를 선택해주세요!");
+      addToast({
+        id: Date.now(),
+        isImage: true,
+        content: `게임결과를 선택해주세요!`,
+        type: 'error',
+      });
       return;
     }
 
@@ -131,19 +146,32 @@ const ScoreInput = () => {
       selectedScoreType === ScoreType.ALL_WRONG &&
       totalBonusScore !== players.length - 1
     ) {
-      alert(
-        `모두 오답일 경우, 추가 점수 총합이 ${players.length - 1}점 이여야 합니다.`,
-      );
+      addToast({
+        id: Date.now(),
+        isImage: true,
+        content: `모두 오답일 경우, 추가 점수 총합이 ${players.length - 1}점 이여야 합니다.`,
+        type: 'error',
+      });
       return;
     }
 
     if (selectedScoreType === ScoreType.PARTLY_CORRECT) {
       if (!correctCount) {
-        alert("정답자는 최소 1명이여야 합니다.");
+        addToast({
+          id: Date.now(),
+          isImage: true,
+          content: `정답자는 최소 1명이여야 합니다`,
+          type: 'error',
+        });
         return;
       }
       if (totalBonusScore < minBonusRequired) {
-        alert(`추가 점수는 최소 ${minBonusRequired}점이여야 합니다.`);
+        addToast({
+          id: Date.now(),
+          isImage: true,
+          content: `추가 점수는 최소 ${minBonusRequired}점이여야 합니다.`,
+          type: 'error',
+        });
         return;
       }
     }
@@ -156,7 +184,7 @@ const ScoreInput = () => {
     );
     setRound((prev) => prev + 1);
     setStoryTellerIndex((prev) => (prev === players.length - 1 ? 0 : prev + 1));
-    navigate("/gameBoard");
+    navigate('/gameBoard');
   };
   useEffect(() => {
     if (selectedScoreType === ScoreType.ALL_CORRECT) {
@@ -176,7 +204,7 @@ const ScoreInput = () => {
           <Button
             key={idx}
             onClick={() => setSelectedScoreType(type)}
-            $variant={selectedScoreType === type ? "black" : undefined}
+            $variant={selectedScoreType === type ? 'black' : undefined}
           >
             {type}
           </Button>
@@ -213,13 +241,13 @@ const ScoreInput = () => {
               storyTellerIndex !== idx && (
                 <div key={idx}>
                   <span>{player.name}</span>
-                  <Button onClick={() => inputPlayerBonusScore(idx, "plus")}>
+                  <Button onClick={() => inputPlayerBonusScore(idx, 'plus')}>
                     +
                   </Button>
                   <Button
                     onClick={() => {
                       if (playerScores[idx].bonusScore > 0) {
-                        inputPlayerBonusScore(idx, "minus");
+                        inputPlayerBonusScore(idx, 'minus');
                       }
                     }}
                   >
@@ -231,7 +259,10 @@ const ScoreInput = () => {
           )}
         </InputWrapper>
       )}
-      <Button $variant="blue" onClick={handleScoreSubmit}>
+      <Button
+        $variant="blue"
+        onClick={handleScoreSubmit}
+      >
         점수 입력 완료
       </Button>
     </ScoreInputWrapper>
