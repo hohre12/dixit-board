@@ -9,7 +9,8 @@ import { ScoreType } from "../../constants/common";
 import { Button } from "../../styles/common";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useConfirm } from "@/hooks/useConfirm";
+// import { useConfirm } from "@/hooks/useConfirm";
+import { TPlayer } from "@/types";
 
 type TPlayerScore = {
   isCorrect: boolean;
@@ -30,7 +31,7 @@ const ScoreInput = () => {
       bonusScore: 0,
     })),
   );
-  const { showConfirm, hideConfirm } = useConfirm();
+  //   const { showConfirm, hideConfirm } = useConfirm();
 
   const checkCorrectPlayer = useCallback(
     (index: number, e: ChangeEvent<HTMLInputElement>) => {
@@ -92,121 +93,70 @@ const ScoreInput = () => {
       alert("게임결과를 선택해주세요!");
       return;
     }
-    switch (selectedScoreType) {
-      case ScoreType.ALL_CORRECT:
-        // 로직
-        setPlayers(
-          players.map((player, idx) =>
-            idx === storyTellerIndex
-              ? {
-                  ...player,
-                  scores: [...player.scores, 0],
-                }
-              : {
-                  ...player,
-                  scores: [...player.scores, 2],
-                },
-          ),
-        );
-        break;
-      case ScoreType.ALL_WRONG:
-        // 로직
-        if (
-          playerScores.reduce(
-            (acc, playerScore) => acc + playerScore.bonusScore,
-            0,
-          ) !==
-          players.length - 1
-        ) {
-          alert(
-            `모두 오답일 경우, 추가 점수 총합이 ${players.length - 1}점 이여야 합니다.`,
-          );
-          return;
-        }
-        setPlayers(
-          players.map((player, idx) =>
-            idx === storyTellerIndex
-              ? {
-                  ...player,
-                  scores: [...player.scores, 0],
-                }
-              : {
-                  ...player,
-                  scores: [...player.scores, 2 + playerScores[idx].bonusScore],
-                },
-          ),
-        );
-        break;
-      case ScoreType.PARTLY_CORRECT:
-        if (!playerScores.some((playerScore) => playerScore.isCorrect)) {
-          alert("정답자는 최소 1명이여야 합니다.");
-          return;
-        }
-        if (
-          playerScores.reduce(
-            (acc, playerScore) => acc + playerScore.bonusScore,
-            0,
-          ) <
-          players.length -
-            1 -
-            playerScores.filter((playerScore) => playerScore.isCorrect).length
-        ) {
-          alert(
-            `추가 점수는 최소 ${
-              players.length -
-              1 -
-              playerScores.filter((playerScore) => playerScore.isCorrect).length
-            }점이여야 합니다.`,
-          );
-          return;
-        }
-        setPlayers(
-          players.map((player, idx) =>
-            idx === storyTellerIndex || playerScores[idx].isCorrect
-              ? {
-                  ...player,
-                  scores: [...player.scores, 3 + playerScores[idx].bonusScore],
-                }
-              : {
-                  ...player,
-                  scores: [...player.scores, 0 + playerScores[idx].bonusScore],
-                },
-          ),
-        );
-        break;
-    }
-    // 라운드 + 1
-    setRound(round + 1);
-    // 이야기꾼 + 1 - 마지막일시 처음으로
-    if (storyTellerIndex === players.length - 1) {
-      setStoryTellerIndex(0);
-    } else {
-      setStoryTellerIndex(storyTellerIndex + 1);
-    }
-    // 라운드 진행
-    if (
-      players.some(
-        (player) => player.scores.reduce((acc, score) => acc + score, 0) >= 30,
+
+    const totalBonusScore = playerScores.reduce(
+      (acc, { bonusScore }) => acc + bonusScore,
+      0,
+    );
+    const correctCount = playerScores.filter(
+      ({ isCorrect }) => isCorrect,
+    ).length;
+    const minBonusRequired = players.length - 1 - correctCount;
+
+    const getUpdatedScores = (player: TPlayer, idx: number): number[] => {
+      if (
+        selectedScoreType !== ScoreType.PARTLY_CORRECT &&
+        idx === storyTellerIndex
       )
+        return [...player.scores, 0];
+
+      switch (selectedScoreType) {
+        case ScoreType.ALL_CORRECT:
+          return [...player.scores, 2];
+        case ScoreType.ALL_WRONG:
+          return [...player.scores, 2 + playerScores[idx].bonusScore];
+        case ScoreType.PARTLY_CORRECT:
+          return [
+            ...player.scores,
+            idx === storyTellerIndex || playerScores[idx].isCorrect
+              ? 3 + playerScores[idx].bonusScore
+              : playerScores[idx].bonusScore,
+          ];
+        default:
+          return player.scores;
+      }
+    };
+
+    if (
+      selectedScoreType === ScoreType.ALL_WRONG &&
+      totalBonusScore !== players.length - 1
     ) {
-      showConfirm({
-        isOpen: true,
-        title: "게임종료",
-        content: `${players.find((player) => player.scores.reduce((acc, score) => acc + score, 0) >= 30)?.name}님이 ${30}점을 초과하여 게임이 종료되었습니다.`,
-        confirmText: "결과 페이지로 이동",
-        confirmVariant: "blue",
-        onClose: () => {
-          hideConfirm();
-          navigate("/gameResult");
-        },
-        onConfirm: () => {
-          hideConfirm();
-          navigate("/gameResult");
-        },
-      });
-    } else {
-      navigate("/gameBoard");
+      alert(
+        `모두 오답일 경우, 추가 점수 총합이 ${players.length - 1}점 이여야 합니다.`,
+      );
+      return;
     }
+
+    if (selectedScoreType === ScoreType.PARTLY_CORRECT) {
+      if (!correctCount) {
+        alert("정답자는 최소 1명이여야 합니다.");
+        return;
+      }
+      if (totalBonusScore < minBonusRequired) {
+        alert(`추가 점수는 최소 ${minBonusRequired}점이여야 합니다.`);
+        return;
+      }
+    }
+
+    setPlayers(
+      players.map((player, idx) => ({
+        ...player,
+        scores: getUpdatedScores(player, idx),
+      })),
+    );
+    setRound((prev) => prev + 1);
+    setStoryTellerIndex((prev) => (prev === players.length - 1 ? 0 : prev + 1));
+    navigate("/gameBoard");
   };
   useEffect(() => {
     if (selectedScoreType === ScoreType.ALL_CORRECT) {
