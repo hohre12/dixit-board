@@ -1,4 +1,25 @@
-#root {
+.App {
+  width: 100%;
+  height: 100vh;
+}
+
+p.required {
+  display: inline-block;
+  color: #ff3b31;
+  margin-left: 5px;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: #ff3d00;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -39,4 +60,4 @@
 
 .read-the-docs {
   color: #888;
-}
+} */
