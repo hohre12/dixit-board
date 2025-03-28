@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import { Button, device } from "../../styles/common";
-import { useNavigate } from "react-router-dom";
-import { useResetRecoilState } from "recoil";
+import styled from 'styled-components';
+import { Button, device } from '../../styles/common';
+import { useNavigate } from 'react-router-dom';
+import { useResetRecoilState } from 'recoil';
 import {
   playersState,
   roundState,
   storyTellerIndexState,
-} from "../../state/common";
-import { useEffect } from "react";
+} from '../../state/common';
+import { useEffect } from 'react';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Main = () => {
   return (
     <MainWrapper>
       <h1>Dixit ScoreBoard</h1>
-      <Button onClick={() => navigate("/start")}>게임 시작</Button>
+      <Button onClick={() => navigate('/start')}>게임 시작</Button>
     </MainWrapper>
   );
 };
