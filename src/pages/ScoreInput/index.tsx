@@ -233,6 +233,7 @@ const ScoreInput = () => {
     setPlayers(settingPlayers);
     if (winnerPlayers.length > 0) {
       openConfirm(winnerPlayers);
+      window.history.pushState(null, '', '/');
     } else {
       setRound((prev) => prev + 1);
       setStoryTellerIndex((prev) =>
