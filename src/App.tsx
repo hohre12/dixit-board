@@ -28,58 +28,58 @@ import Setting from './pages/Setting';
 
 function App() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const players = useRecoilValue(playersState);
-  const resetPlayers = useResetRecoilState(playersState);
-  const resetRound = useResetRecoilState(roundState);
-  const resetStoryTellerIndex = useResetRecoilState(storyTellerIndexState);
-  const defaultGameScore = useRecoilValue(defaultGameScoreState);
-  const { showConfirm, hideConfirm } = useConfirm();
+  //   const navigate = useNavigate();
+  //   const players = useRecoilValue(playersState);
+  //   const resetPlayers = useResetRecoilState(playersState);
+  //   const resetRound = useResetRecoilState(roundState);
+  //   const resetStoryTellerIndex = useResetRecoilState(storyTellerIndexState);
+  //   const defaultGameScore = useRecoilValue(defaultGameScoreState);
+  //   const { showConfirm, hideConfirm } = useConfirm();
   const isGameInProgress = ['/gameBoard', '/scoreInput'].includes(
     location.pathname,
   );
-  const winnerPlayers = players.filter(
-    (player) =>
-      player.scores.reduce((acc, score) => acc + score, 0) >=
-      defaultGameScore.maxScore,
-  );
-  const openConfirm = useCallback(() => {
-    showConfirm({
-      isOpen: true,
-      title: '게임종료',
-      content: `${winnerPlayers.map((player) => player.name).join(',')}님이 ${defaultGameScore.maxScore}점을 초과하여 게임이 종료되었습니다.`,
-      confirmText: '결과 페이지로 이동',
-      confirmVariant: 'blue',
-      onClose: () => {
-        hideConfirm();
-        navigate('/gameResult');
-      },
-      onConfirm: () => {
-        hideConfirm();
-        navigate('/gameResult');
-      },
-    });
-  }, [
-    defaultGameScore.maxScore,
-    hideConfirm,
-    navigate,
-    showConfirm,
-    winnerPlayers,
-  ]);
-  useEffect(() => {
-    if (winnerPlayers.length > 0) {
-      resetPlayers();
-      resetRound();
-      resetStoryTellerIndex();
-      openConfirm();
-    }
-  }, [
-    openConfirm,
-    resetPlayers,
-    resetRound,
-    resetStoryTellerIndex,
-    winnerPlayers,
-  ]);
+  //   const winnerPlayers = players.filter(
+  //     (player) =>
+  //       player.scores.reduce((acc, score) => acc + score, 0) >=
+  //       defaultGameScore.maxScore,
+  //   );
+  //   const openConfirm = useCallback(() => {
+  //     showConfirm({
+  //       isOpen: true,
+  //       title: '게임종료',
+  //       content: `${winnerPlayers.map((player) => player.name).join(',')}님이 ${defaultGameScore.maxScore}점을 초과하여 게임이 종료되었습니다.`,
+  //       confirmText: '결과 페이지로 이동',
+  //       confirmVariant: 'blue',
+  //       onClose: () => {
+  //         hideConfirm();
+  //         navigate('/gameResult');
+  //       },
+  //       onConfirm: () => {
+  //         hideConfirm();
+  //         navigate('/gameResult');
+  //       },
+  //     });
+  //   }, [
+  //     defaultGameScore.maxScore,
+  //     hideConfirm,
+  //     navigate,
+  //     showConfirm,
+  //     winnerPlayers,
+  //   ]);
+  //   useEffect(() => {
+  //     if (winnerPlayers.length > 0) {
+  //       resetPlayers();
+  //       resetRound();
+  //       resetStoryTellerIndex();
+  //       openConfirm();
+  //     }
+  //   }, [
+  //     openConfirm,
+  //     resetPlayers,
+  //     resetRound,
+  //     resetStoryTellerIndex,
+  //     winnerPlayers,
+  //   ]);
   return (
     <div className="App">
       <Navigation />

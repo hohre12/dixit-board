@@ -12,6 +12,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TPlayer } from '@/types';
 import { useToast } from '@/hooks/useToast';
+import { useConfirm } from '@/hooks/useConfirm';
 
 type TPlayerScore = {
   isCorrect: boolean;
@@ -21,6 +22,7 @@ type TPlayerScore = {
 const ScoreInput = () => {
   const navigate = useNavigate();
   const { addToast } = useToast();
+  const { showConfirm, hideConfirm } = useConfirm();
   const defaultGameScore = useRecoilValue(defaultGameScoreState);
   const [round, setRound] = useRecoilState(roundState);
   const [players, setPlayers] = useRecoilState(playersState);
@@ -33,6 +35,27 @@ const ScoreInput = () => {
       isCorrect: false,
       bonusScore: 0,
     })),
+  );
+
+  const openConfirm = useCallback(
+    (winnerPlayers: TPlayer[]) => {
+      showConfirm({
+        isOpen: true,
+        title: '게임종료',
+        content: `${winnerPlayers.map((player) => player.name).join(',')}님이 ${defaultGameScore.maxScore}점을 초과하여 게임이 종료되었습니다.`,
+        confirmText: '결과 페이지로 이동',
+        confirmVariant: 'blue',
+        onClose: () => {
+          hideConfirm();
+          navigate('/gameResult');
+        },
+        onConfirm: () => {
+          hideConfirm();
+          navigate('/gameResult');
+        },
+      });
+    },
+    [defaultGameScore.maxScore, hideConfirm, navigate, showConfirm],
   );
 
   const checkCorrectPlayer = useCallback(
@@ -198,15 +221,25 @@ const ScoreInput = () => {
       }
     }
 
-    setPlayers(
-      players.map((player, idx) => ({
-        ...player,
-        scores: getUpdatedScores(player, idx),
-      })),
+    const settingPlayers = players.map((player, idx) => ({
+      ...player,
+      scores: getUpdatedScores(player, idx),
+    }));
+    const winnerPlayers = settingPlayers.filter(
+      (player) =>
+        player.scores.reduce((acc, score) => acc + score, 0) >=
+        defaultGameScore.maxScore,
     );
-    setRound((prev) => prev + 1);
-    setStoryTellerIndex((prev) => (prev === players.length - 1 ? 0 : prev + 1));
-    navigate('/gameBoard');
+    setPlayers(settingPlayers);
+    if (winnerPlayers.length > 0) {
+      openConfirm(winnerPlayers);
+    } else {
+      setRound((prev) => prev + 1);
+      setStoryTellerIndex((prev) =>
+        prev === players.length - 1 ? 0 : prev + 1,
+      );
+      navigate('/gameBoard');
+    }
   };
   useEffect(() => {
     if (selectedScoreType === ScoreType.ALL_CORRECT) {

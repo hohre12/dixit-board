@@ -1,5 +1,5 @@
 import { defaultGameScoreState, playersState } from '@/state/common';
-import { TableItemRow, TableWrapper } from '@/styles/common';
+import { TableHeaderRow, TableItemRow, TableWrapper } from '@/styles/common';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
@@ -32,9 +32,11 @@ const GameResult = () => {
         </h2>
         <TableWrapper>
           <thead>
-            <th>순위</th>
-            <th>플레이어</th>
-            <th>최종 점수</th>
+            <TableHeaderRow>
+              <th>순위</th>
+              <th>플레이어</th>
+              <th>최종 점수</th>
+            </TableHeaderRow>
           </thead>
           <tbody>
             {sortedPlayers.map((player, idx) => (
@@ -56,4 +58,7 @@ export default GameResult;
 const GameResultWrapper = styled.div``;
 const ResultWrapper = styled.div`
   padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
