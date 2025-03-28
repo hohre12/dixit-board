@@ -31,8 +31,7 @@ export default Main;
 
 const MainWrapper = styled.div`
   width: 450px;
-  height: 600px;
-  padding-top: 25%;
+  transform: translate(0, 200px);
   margin: auto;
   text-align: center;
   h1 {
@@ -41,6 +40,5 @@ const MainWrapper = styled.div`
 
   @media ${device.mobile} {
     width: 100%;
-    height: 400px;
   }
 `;

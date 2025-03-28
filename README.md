@@ -1,30 +1,97 @@
-# React + TypeScript + Vite
+# Dixit 보드게임 웹 애플리케이션
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+이 프로젝트는 Dixit 보드게임의 규칙을 웹으로 구현한 애플리케이션입니다.
+여러 명의 플레이어가 참여하여 점수를 입력하고, 게임 진행 상황과 결과를 확인할 수 있는 기능을 제공합니다.
 
-Currently, two official plugins are available:
+## 1. 기능 요구사항 분석
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 1.1 필수 요구사항
 
-## Expanding the ESLint configuration
+1. Dixit 보드게임의 룰을 그대로 적용
+2. 4명의 유저 (최소 3명 ~ 최대 4명)
+3. 모바일 웹 환경을 고려한 반응형 UI 설계
+4. 점수 입력 기능 제공
+5. 유저별 총점 계산
+6. 승리 조건 달성 시 종료 알림 제공
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 1.2 입력 요구사항
 
-- Configure the top-level `parserOptions` property like this:
+1. 유저 이름 입력
+2. 각 라운드의 점수 입력
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+### 1.3 출력 요구사항
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+1. 유저별 총점 표시
+2. 승리 조건 달성 시 종료 알림 제공
+
+### 1.4 선택 추가 요구사항
+
+1. 사용성 및 확장성을 고려한 기능 개선
+2. 각 조건별 득점 점수와 승리 조건 점수를 조정할 수 있는 기능 추가
+
+## 2. 기술 스택
+
+- **React + TypeScript**: 컴포넌트 기반 UI 개발
+- **Vite**: 빌드
+- **Vercel**: 배포
+- **Recoil**: 상태 관리
+- **Styled-Components**: 반응형 UI 및 스타일 관리
+
+## 3. 시스템 설계
+
+### 3.1 컴포넌트 구조
+
+1. `App.tsx` - 전체 구조 관리
+2. `Main.tsx` - 메인 페이지
+3. `Start.tsx` - 플레이어 추가 및 삭제, 플레이어 이름 입력 페이지
+4. `GameBoard.tsx` - 실제 게임이 이루어지는 동안 띄워져 있는 화면, 현재 회차와 스토리텔러의 정보 표시 페이지
+5. `ScoreInput.tsx` - 해당 회차 점수 입력 페이지
+6. `GameResult.tsx` - 승리 조건 달성 시 게임 결과 확인 페이지
+7. `Settings.tsx` (선택) - 각 조건별 득점 점수 및 승리 조건 점수 조정할 수 있는 페이지
+8. `Confirm.tsx` - 알림 확인 공용 컴포넌트, 현재 해당 프로젝트에서는 승리 조건 달성 시에만 등장
+9. `Navigation.tsx` - 글로벌 네비게이션 컴포넌트
+10. `ScoreBoard.tsx` - 게임 진행 중, 상단에 노출되는 플레이어 별 점수 획득 내역과 총점을 확인할 수 있는 컴포넌트
+11. `StoryTellerInfo.tsx` - 현재 회차의 스토리텔러의 정보를 노출하는 컴포넌트
+12. `SvgIcon.tsx` - 동적 svg 이미지 로드 컴포넌트
+13. `Toast.tsx` - 각종 알림 노출 공용 컴포넌트
+
+### 3.2 상태 관리
+
+- Recoil을 사용하여 플레이어 정보 및 점수 상태 관리
+- 각종 점수 조건에 대한 기본값 관리
+- 현재 라운드 관리
+- 현재 이야기꾼의 인덱스 관리
+
+### 3.3 반응형 UI 설계
+
+- Styled-Components 활용하여 스타일 구성
+- 미디어 쿼리를 활용한 유동적 레이아웃 구성
+
+## 4. 개발 및 테스트
+
+### 4.1 개발 과정
+
+1. 요구사항 분석 및 설계
+2. 프로젝트 생성 및 GitHub 연동
+3. 페이지 및 컴포넌트 개발
+4. 게임의 흐름에 맞는 Flow 구성
+5. 점수 계산 로직 구현
+6. 리팩토링
+7. UI 개발 및 반응형 테스트
+8. 승리 조건 확인 기능 추가
+9. 리팩토링
+10. 추가 요구사항 (점수 조정 기능) 개발
+11. 최종 테스트 및 배포
+
+### 4.2 테스트 계획
+
+- 유저 입력 검증 (이름, 점수 입력)
+- 점수 계산 로직 테스트
+- 승리 조건 검증
+- 반응형 UI 테스트 (모바일, 데스크톱)
+
+## 5. 배포 및 유지보수
+
+- **Vercel**을 사용하여 배포
+- 지속적인 리팩토링을 통해 코드 가독성 개선
+- 확장 가능성을 고려한 코드 구조 유지

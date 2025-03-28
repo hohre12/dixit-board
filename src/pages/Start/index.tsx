@@ -5,16 +5,22 @@ import { useRecoilState } from 'recoil';
 import { playersState } from '../../state/common';
 import { MAXIMUM_PLAYERS } from '../../constants/common';
 import { useCallback } from 'react';
+import { useToast } from '@/hooks/useToast';
 
 const Start = () => {
   const navigate = useNavigate();
   const [players, setPlayers] = useRecoilState(playersState);
-
+  const { addToast } = useToast();
   const addPlayer = () => {
     if (players.length < MAXIMUM_PLAYERS) {
       setPlayers((prev) => [...prev, { name: '', scores: [] }]);
     } else {
-      alert(`플레이어 수는 최대 ${MAXIMUM_PLAYERS}명 입니다.`);
+      addToast({
+        id: Date.now(),
+        isImage: true,
+        content: `플레이어 수는 최대 ${MAXIMUM_PLAYERS}명 입니다.`,
+        type: 'error',
+      });
     }
   };
 
@@ -22,7 +28,12 @@ const Start = () => {
     if (players.length > 3) {
       setPlayers((prev) => prev.slice(0, -1));
     } else {
-      alert(`플레이어 수는 최소 3명 입니다.`);
+      addToast({
+        id: Date.now(),
+        isImage: true,
+        content: `플레이어 수는 최소 3명 입니다.`,
+        type: 'error',
+      });
     }
   };
 
@@ -39,7 +50,12 @@ const Start = () => {
 
   const handleStart = () => {
     if (players.some((it) => !it.name)) {
-      alert('플레이어 이름은 필수입니다.');
+      addToast({
+        id: Date.now(),
+        isImage: true,
+        content: `플레이어 이름은 필수입니다.`,
+        type: 'error',
+      });
       return;
     }
     navigate('/gameBoard');
@@ -57,7 +73,7 @@ const Start = () => {
         {players.map((it, idx) => (
           <PlayerBox key={idx}>
             <span>
-              플레이어 {idx}
+              플레이어 {idx + 1}
               <p className="required">*</p>
             </span>
             <Input
@@ -95,6 +111,7 @@ const PlayerSettingWrapper = styled.div`
   flex-direction: column;
   gap: 10px;
   text-align: center;
+  margin: auto;
   h2 {
     text-align: center;
   }

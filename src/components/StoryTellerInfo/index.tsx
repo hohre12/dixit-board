@@ -1,11 +1,11 @@
-import { useRecoilValue } from 'recoil';
-import styled from 'styled-components';
+import { useRecoilValue } from "recoil";
+import styled from "styled-components";
 import {
   playersState,
   roundState,
   storyTellerIndexState,
-} from '../../state/common';
-import { device } from '@/styles/common';
+} from "../../state/common";
+import { device } from "@/styles/common";
 
 const StoryTellerInfo = () => {
   const storyTellerIndex = useRecoilValue(storyTellerIndexState);
@@ -21,7 +21,8 @@ const StoryTellerInfo = () => {
 export default StoryTellerInfo;
 
 const StoryTellerInfoWrapper = styled.div`
-  width: 100%;
+  max-width: 1140px;
+  margin: auto;
   padding: 30px;
   text-align: center;
   span {

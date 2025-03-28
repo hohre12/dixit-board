@@ -1,5 +1,6 @@
 import { useDynamicSvgImport } from '@/hooks/useDynamicSvgImport';
 import { ComponentProps } from 'react';
+import styled from 'styled-components';
 
 interface LazySvgProps extends ComponentProps<'svg'> {
   iconName: string;
@@ -18,9 +19,9 @@ export const SvgIcon = ({
   return (
     <>
       {Svg && (
-        <div>
+        <DefaultWrapperStyle>
           <Svg {...rest} />
-        </div>
+        </DefaultWrapperStyle>
       )}
       {!loading && !Svg && (
         <img
@@ -31,3 +32,8 @@ export const SvgIcon = ({
     </>
   );
 };
+
+const DefaultWrapperStyle = styled.div`
+  display: flex;
+  align-items: center;
+`;

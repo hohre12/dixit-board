@@ -1,10 +1,10 @@
-import { TVariant } from '@/types';
-import styled, { css } from 'styled-components';
+import { TVariant } from "@/types";
+import styled, { css } from "styled-components";
 
 export const device = {
-  mobile: '(max-width: 480px)',
-  tablet: '(max-width: 768px)',
-  desktop: '(min-width: 769px)',
+  mobile: "(max-width: 480px)",
+  tablet: "(max-width: 768px)",
+  desktop: "(min-width: 769px)",
 };
 
 export const Button = styled.button<{ $variant?: TVariant }>`
@@ -18,32 +18,44 @@ export const Button = styled.button<{ $variant?: TVariant }>`
     background: #eee;
   }
   ${({ $variant }) =>
-    $variant === 'gray' &&
+    $variant === "gray" &&
     css`
       color: #111;
       background: #f5f5f5;
       border: none;
+      &:hover {
+        background: #ddd;
+      }
     `}
   ${({ $variant }) =>
-    $variant === 'black' &&
+    $variant === "black" &&
     css`
       color: #fff;
       background: #111;
       border: none;
+      &:hover {
+        background: #333;
+      }
     `}
   ${({ $variant }) =>
-    $variant === 'blue' &&
+    $variant === "blue" &&
     css`
       color: #fff;
       background-color: #0d6dff;
       border: none;
+      &:hover {
+        background: #4b94fa;
+      }
     `}
     ${({ $variant }) =>
-    $variant === 'red' &&
+    $variant === "red" &&
     css`
       color: #fff;
       background-color: #ff3126;
       border: none;
+      &:hover {
+        background: #fa6057;
+      }
     `}
 `;
 

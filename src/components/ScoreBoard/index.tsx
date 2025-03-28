@@ -52,7 +52,8 @@ export default ScoreBoard;
 
 const ScoreBoardWrapper = styled.div`
   padding: 30px 0;
-  width: 100%;
+  max-width: 1140px;
+  margin: auto;
   height: 500px;
   overflow-y: auto;
   @media ${device.mobile} {
