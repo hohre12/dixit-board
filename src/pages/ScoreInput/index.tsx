@@ -1,6 +1,7 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import {
+  defaultGameScoreState,
   playersState,
   roundState,
   storyTellerIndexState,
@@ -20,6 +21,7 @@ type TPlayerScore = {
 const ScoreInput = () => {
   const navigate = useNavigate();
   const { addToast } = useToast();
+  const defaultGameScore = useRecoilValue(defaultGameScoreState);
   const [round, setRound] = useRecoilState(roundState);
   const [players, setPlayers] = useRecoilState(playersState);
   const [storyTellerIndex, setStoryTellerIndex] = useRecoilState(
@@ -71,9 +73,11 @@ const ScoreInput = () => {
         ({ isCorrect }) => isCorrect,
       ).length;
       const maxBonusLimit =
-        players.length -
-        1 -
-        (selectedScoreType === ScoreType.PARTLY_CORRECT ? correctCount : 0);
+        players.length * defaultGameScore.bonusScore -
+        defaultGameScore.bonusScore -
+        (selectedScoreType === ScoreType.PARTLY_CORRECT
+          ? correctCount * defaultGameScore.bonusScore
+          : 0);
 
       if (type === 'plus' && totalBonusScore === maxBonusLimit) {
         addToast({
@@ -90,12 +94,21 @@ const ScoreInput = () => {
           ...playerScore,
           bonusScore:
             idx === index
-              ? playerScore.bonusScore + (type === 'plus' ? 1 : -1)
+              ? playerScore.bonusScore +
+                (type === 'plus'
+                  ? defaultGameScore.bonusScore
+                  : -defaultGameScore.bonusScore)
               : playerScore.bonusScore,
         })),
       );
     },
-    [addToast, playerScores, players.length, selectedScoreType],
+    [
+      addToast,
+      defaultGameScore.bonusScore,
+      playerScores,
+      players.length,
+      selectedScoreType,
+    ],
   );
 
   const handleScoreSubmit = () => {
@@ -116,7 +129,10 @@ const ScoreInput = () => {
     const correctCount = playerScores.filter(
       ({ isCorrect }) => isCorrect,
     ).length;
-    const minBonusRequired = players.length - 1 - correctCount;
+    const minBonusRequired =
+      players.length * defaultGameScore.bonusScore -
+      defaultGameScore.bonusScore -
+      correctCount * defaultGameScore.bonusScore;
 
     const getUpdatedScores = (player: TPlayer, idx: number): number[] => {
       if (
@@ -127,14 +143,18 @@ const ScoreInput = () => {
 
       switch (selectedScoreType) {
         case ScoreType.ALL_CORRECT:
-          return [...player.scores, 2];
+          return [...player.scores, defaultGameScore.scoreAllCorrect];
         case ScoreType.ALL_WRONG:
-          return [...player.scores, 2 + playerScores[idx].bonusScore];
+          return [
+            ...player.scores,
+            defaultGameScore.scoreAllWrong + playerScores[idx].bonusScore,
+          ];
         case ScoreType.PARTLY_CORRECT:
           return [
             ...player.scores,
             idx === storyTellerIndex || playerScores[idx].isCorrect
-              ? 3 + playerScores[idx].bonusScore
+              ? defaultGameScore.scorePartlyCorrect +
+                playerScores[idx].bonusScore
               : playerScores[idx].bonusScore,
           ];
         default:
@@ -144,12 +164,14 @@ const ScoreInput = () => {
 
     if (
       selectedScoreType === ScoreType.ALL_WRONG &&
-      totalBonusScore !== players.length - 1
+      totalBonusScore !==
+        players.length * defaultGameScore.bonusScore -
+          defaultGameScore.bonusScore
     ) {
       addToast({
         id: Date.now(),
         isImage: true,
-        content: `모두 오답일 경우, 추가 점수 총합이 ${players.length - 1}점 이여야 합니다.`,
+        content: `모두 오답일 경우, 추가 점수 총합이 ${players.length * defaultGameScore.bonusScore - defaultGameScore.bonusScore}점 이여야 합니다.`,
         type: 'error',
       });
       return;

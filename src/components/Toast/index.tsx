@@ -2,6 +2,7 @@ import { useRecoilValue } from 'recoil';
 import { toastListState } from '@/state/common';
 import { SvgIcon } from '../SvgIcon';
 import styled from 'styled-components';
+import { device } from '@/styles/common';
 
 const Toast = () => {
   const toastList = useRecoilValue(toastListState);
@@ -37,6 +38,9 @@ const ToastListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  @media ${device.mobile} {
+    transform: translate(35%, 0);
+  }
 `;
 const ToastWrapper = styled.div`
   color: #fff;

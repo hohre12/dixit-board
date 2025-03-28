@@ -31,8 +31,7 @@ export default Main;
 
 const MainWrapper = styled.div`
   width: 450px;
-  height: 600px;
-  transform: translate(0, 50%);
+  transform: translate(0, 200px);
   margin: auto;
   text-align: center;
   h1 {
